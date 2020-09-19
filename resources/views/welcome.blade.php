@@ -4,10 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Name Space IT</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
 
         <!-- Styles -->
         <style>
@@ -65,36 +68,81 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+            <div class="top-right">
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
+                <a class="btn btn-primary" target="_blank" href="{{ url('login/company/show') }}"> Company</a>
+                <a class="btn btn-primary"  target="_blank" href="{{ url('login/applicant/show') }}">Applicant</a>
+
+
+            </div>
+
+            <div class="container" >
+
+                <!-- message-->
+                @if(session('message'))
+                    <div class="container">
+                        <div class="alert alert-success col-12  text-center alert-dismissable" style="border-radius: unset; margin: 10px 0;">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <b>Success !! </b>
+                            {{ Session::get('message') }}
+                        </div>
+                    </div>
+                @endif
+                <!-- message-->
+                @if(session('alert'))
+                    <div class="container">
+                        <div class="alert alert-danger col-12  text-center alert-dismissable" style="border-radius: unset; margin: 10px 0;">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <b>Danger !! </b>
+                            {{ Session::get('alert') }}
+                        </div>
+                    </div>
+                @endif
+
+
+
+                <div class="card-body">
+                    <h4><b>Applicant List</b></h4>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Company Name</th>
+                                <th>Salary</th>
+                                <th>Location</th>
+                                <th>Job Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($post as $list)
+                            <tr>
+                                <td> {{ $list->job_title }} </td>
+                                <td> {{ $list->company->business_name }} </td>
+                                <td> {{ $list->salary }} </td>
+                                <td> {{ $list->location.' '.$list->country }} </td>
+                                <td> {{ $list->job_description }} </td>
+                                <td>
+                                    <a href="{{ route('apply.job', $list->id) }}" class="btn btn-primary">Apply</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
             </div>
         </div>
+
+
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" ></script>
+
+
     </body>
 </html>
